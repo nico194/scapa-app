@@ -8,6 +8,7 @@ class HomeScreen extends Component {
         return (
             <View style={styles.container}>
                 <Text>Bienvenido {user.name}</Text>
+                <Text>El asistente de voz está: {user.voice ? 'Activado' : 'Desactivado'}</Text>
             </View>
         )
     }

@@ -33,33 +33,44 @@ export const signIn = (user) => {
 
 export const signUp = (user) => {
     return dispatch => {
-        console.log('User: ', user);
-        const typeUser = user.typeUser !== '' ? user.typeUser : 'tutor';
-        const formData = new FormData();
-        formData.append('userImage', user.image);
-        formData.append('name', user.name);
-        formData.append('birthday', user.birthday);
-        formData.append('email', user.email);
-        formData.append('password', user.password);
-        formData.append('type_user', typeUser);
-        
-        dispatch({ type: FETCH_USERS_PENDING});
-        fetch(`${config.server}/users/signup`, {
-            method: 'POST',
-            body: formData
-        })
-        .then( response => response.json())
-        .then( data => {
-            if(data){
-                console.log('data', data);
-                user.id = data.id;
-                user.image = data.path;
-                user.typeUser = typeUser;
-                console.log('User Complete: ', user);
-                dispatch({ type: USER_SIGNUP_SUCCESS, payload: {user}})
-            }            
-        })
-        .catch( err => dispatch({ type: FETCH_USERS_ERROR, payload: {err}}));
+        return new Promise((resolve, reject) => {
+            console.log('User: ', user);
+            const typeUser = 'patient'
+            const formData = new FormData();
+             formData.append('userImage', { uri: user.image, name: `${user.name}.jpg`, type: 'image/jpg'});
+            formData.append('name', user.name);
+            formData.append('birthday', user.birthday);
+            formData.append('voice', true);
+            formData.append('email', user.email);
+            formData.append('password', user.password);
+            formData.append('type_user', typeUser);
+            user.tutorEmail !== '' && formData.append('tutorEmail', user.tutorEmail);
+            
+            dispatch({ type: FETCH_USERS_PENDING});
+            fetch(`${config.server}/users/signup`, {
+                method: 'POST',
+                body: formData
+            })
+            .then( response => {
+                console.log('response', response)
+                return response.json()
+            })
+            .then( data => {
+                if(data){
+                    console.log('data', data);
+                    user.id = data.id;
+                    user.image = data.path;
+                    user.typeUser = typeUser;
+                    console.log('User Complete: ', user);
+                    dispatch({ type: USER_SIGNUP_SUCCESS, payload: {user}});
+                    return resolve({response: '', status: true});
+                }
+            })
+            .catch( err => {
+                dispatch({ type: FETCH_USERS_ERROR, payload: {err}})
+                return reject({response: err, status: false})
+            });
+        });
     }
 }
 
