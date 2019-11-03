@@ -31,57 +31,12 @@ function categoriesReducer(state = initialState, {type, payload}) {
                 err: payload.err
             }
         }
-        case FETCH_CATEGORIES_SUCCESS: 
+        case FETCH_CATEGORIES_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 categories: payload.categories
             }
-        case FETCH_PATIENT_CATEGORIES_SUCCESS: 
-            return {
-                ...state,
-                loading: false,
-                patientCategories: payload.categories
-        }
-        case FETCH_ADD_CATEGORY_SUCCESS: {
-            return {
-                ...state,
-                loading: false,
-                categories: state.categories.concat(payload.category)
-            }
-        }
-        case FETCH_UPDATE_CATEGORY_SUCCESS: {
-            const index = state.categories.findIndex(category => category.id === payload.id);
-            state.categories[index].description = payload.newDescription;
-            return {
-                ...state,
-                loading: false,
-                categories: state.categories.filter(category => category !== null)
-            };
-        }
-        case FETCH_DELETE_CATEGORY_SUCCESS: {
-            return {
-                ...state,
-                loading: false,
-                categories: state.categories.filter(category => category.id !== payload.id)
-            }
-        }
-        case FETCH_ADD_CATEGORIES_TO_FOLDER : {
-            console.log('concat',payload.category)
-            return {
-                ...state,
-                loading: false,
-                patientCategories: state.patientCategories.concat(payload.category)
-            }
-        }
-        case FETCH_DELETE_CATEGORY_TO_FOLDER: {
-            console.log('delete',state.patientCategories, state.patientCategories.filter(category => category.id !== payload.id))
-            return {
-                ...state,
-                loading: false,
-                patientCategories: state.patientCategories.filter(category => category.id !== payload.id)
-            }
-        }
         default:
             return state;
     }

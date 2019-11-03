@@ -37,7 +37,7 @@ export const signUp = (user) => {
             console.log('User: ', user);
             const typeUser = 'patient'
             const formData = new FormData();
-             formData.append('userImage', { uri: user.image, name: `${user.name}.jpg`, type: 'image/jpg'});
+            formData.append('userImage', { uri: user.image, name: `${user.name}.jpg`, type: 'image/jpg'});
             formData.append('name', user.name);
             formData.append('birthday', user.birthday);
             formData.append('voice', true);

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, Text, Button, TextInput, Image, DatePickerAndroid, DatePickerIOS, ScrollView } from 'react-native';
+import ButtonComponent from '../components/atoms/button/ButtonComponent';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
@@ -7,6 +8,17 @@ import { signUp } from '../redux/actions/users'
 import { connect } from 'react-redux'
 
 export class RegisterScreen extends Component {
+    static navigationOptions = {
+        title: 'Registrate',
+        headerStyle: {
+            backgroundColor: '#19A7C4',
+        },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+        },
+    };
+
     constructor(props) {
         super(props)
         this.state = {
@@ -136,7 +148,7 @@ export class RegisterScreen extends Component {
                     <TextInput style={TextField.field} placeholder='Password...' onChangeText={text => this.onChangeField(text, 'password')} />
                     <TextInput style={TextField.field} placeholder='Nombre...' onChangeText={text => this.onChangeField(text, 'name')} />
                     {Constants.platform.android ?
-                        <Button style={{ marginBottom: 10 , marginTop: 10}} title='Seleccionar Fecha de nacimiento' onPress={this.setDateAndroid} />
+                        <ButtonComponent text="Seleccionar Fecha de nacimiento" onPress={this.setDateAndroid} className='primary' />
                         :
                         <DatePickerIOS date={birthday} onDateChange={this.setDateIOS} />
                     }
@@ -147,12 +159,12 @@ export class RegisterScreen extends Component {
                             <Image source={{uri: image}} style={{ width: 200, height: 200, resizeMode: 'contain', }}/>
                         }
                         <View>
-                            <Button title='Camara' onPress={() => this.selectImage('camera')} />
-                            <Button title='Galeria' onPress={() => this.selectImage('gallery')} />
+                            <ButtonComponent text="Camara" onPress={() => this.selectImage('camera')} className='primary' />
+                            <ButtonComponent text="Galeria" onPress={() => this.selectImage('gallery')} className='primary' />
                         </View>
                     </View>
                     <TextInput style={TextField.field} placeholder='Email del tutor...' onChangeText={text => this.onChangeField(text, 'tutorEmail')} />
-                    <Button title="Register" onPress={this.signUp} />
+                    <ButtonComponent text="Register" onPress={this.signUp} className='primary' />
                     {register &&
                         <Text style={{ color: 'red' }}>{{message}}</Text>
                     }

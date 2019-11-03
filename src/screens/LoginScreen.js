@@ -1,16 +1,33 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Text, Button, TextInput } from 'react-native';
+import { StyleSheet, View, Text, TextInput, ImageBackground } from 'react-native';
+import ButtonComponent from '../components/atoms/button/ButtonComponent';
 import TextField from '../Styles/TextField';
+import { ScreenOrientation } from 'expo';
 import { connect } from 'react-redux';
 import { signIn } from '../redux/actions/users';
 
 class LoginScreen extends Component {
+    static navigationOptions = {
+        title: 'SCAPA',
+        headerStyle: {
+            backgroundColor: '#19A7C4',
+        },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+        },
+    };
+
     constructor(props) {
         super(props)
         this.state= {
             email: '',
             password: ''
         }
+    }
+
+    componentDidMount() {
+        ScreenOrientation.lockAsync(ScreenOrientation.Orientation.LANDSCAPE)
     }
 
     onChangeField = (text, field) => {
@@ -30,11 +47,10 @@ class LoginScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={{textAlign: 'center', marginBottom: 10}}>Login screen</Text>
                 <TextInput style={TextField.field} placeholder='Email...' onChangeText={ text => this.onChangeField(text, 'email')}/>
                 <TextInput style={TextField.field} placeholder='Password...' onChangeText={ text => this.onChangeField(text, 'password')}/>
-                <Button title="Login" onPress={this.signIn} />
-                <Text style={styles.link} onPress={this.goToSignUp} >No tienes cuanta? Registrate aquí </Text>
+                <ButtonComponent text="Login" onPress={this.signIn} className='primary' />
+                <Text style={styles.link} onPress={this.goToSignUp} >No tienes cuenta? Registrate aquí </Text>
             </View>
         )
     }
@@ -42,10 +58,12 @@ class LoginScreen extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 20
+        padding: 20,
+        flex: 1,
+        justifyContent: "center"
     },
     link: {
-        color: 'blue',
+        color: '#A84F3D',
         textDecorationLine: 'underline',
         marginTop: 10
     }
