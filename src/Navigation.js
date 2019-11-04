@@ -16,6 +16,6 @@ export default AppNavigator = createStackNavigator(
         Routines: RoutinesScreen
     },
     {
-        initialRouteName: 'Login'
+        initialRouteName: 'Speak'
     }
 );

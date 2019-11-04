@@ -1,28 +1,30 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View, Text, Dimensions } from 'react-native'
 import Categories from '../categories/Categories';
+import { ScreenOrientation } from 'expo';
 import { getCategoriesByPatient } from '../../../redux/actions/categories';
 import { connect } from 'react-redux'
 
 class Pictograms extends Component {
 
     componentDidMount(){
-        this.props.getCategoriesByPatient(this.props.user.id)
+       // this.props.getCategoriesByPatient(this.props.user.id)
+       ScreenOrientation.lockAsync(ScreenOrientation.Orientation.LANDSCAPE)
     }
 
     render() {
         const { loadingCategories } = this.props;
+        console.log('height', Dimensions.get('screen').height)
         return (
             <View style={styles.container}>
-                <View style={styles.phaseComponent}>
+                <Text>Phrase Component</Text>
+                <View style={styles.categoriesComponent}>
+                    <Categories />
                     <Text>Phrase Component</Text>
-                </View>
-                <View style={styles.categoriesComponent} >
-                    {loadingCategories ?
+                    {/* {loadingCategories ?
                         <Text style={{ fontSize: 30 }}>Cargando...</Text>
                         :
-                        <Categories />
-                    }
+                    } */}
                 </View>
             </View>
         )
@@ -32,16 +34,17 @@ class Pictograms extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'row',
-        padding: 20
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+        padding: 20,
     },
     phaseComponent: {
-        flex: 1,
-        justifyContent: 'flex-start'
     },
     categoriesComponent: {
         flex: 1,
-        justifyContent:'flex-end'
+        justifyContent: 'flex-end',
+        marginBottom: 36
     }
 })
 

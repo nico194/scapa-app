@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text } from 'react-native'
+import { SafeAreaView, StyleSheet, View, Text } from 'react-native'
 import { getPictogramsByCategory } from '../../../redux/actions/pictograms';
 import { connect } from 'react-redux'
 import ButtonComponent from '../../atoms/button/ButtonComponent';
@@ -19,12 +19,21 @@ export class Categories extends Component {
             )
         }): console.log('error categories');
         return (
-            <View>
+            <SafeAreaView style={styles.categoriesContainer}>
                 {listCategories}
-            </View>
+            </SafeAreaView>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    categoriesContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
+})
 
 const mapStateToProps = (state) => ({
     categories: state.categories.categories
