@@ -8,24 +8,18 @@ import { connect } from 'react-redux'
 class Pictograms extends Component {
 
     componentDidMount(){
-       // this.props.getCategoriesByPatient(this.props.user.id)
-       ScreenOrientation.lockAsync(ScreenOrientation.Orientation.LANDSCAPE)
+       this.props.getCategoriesByPatient(this.props.user.id)
     }
 
     render() {
         const { loadingCategories } = this.props;
-        console.log('height', Dimensions.get('screen').height)
         return (
             <View style={styles.container}>
-                <Text>Phrase Component</Text>
-                <View style={styles.categoriesComponent}>
+                {loadingCategories ?
+                    <Text style={{ fontSize: 30 }}>Cargando...</Text>
+                    :
                     <Categories />
-                    <Text>Phrase Component</Text>
-                    {/* {loadingCategories ?
-                        <Text style={{ fontSize: 30 }}>Cargando...</Text>
-                        :
-                    } */}
-                </View>
+                }
             </View>
         )
     }
@@ -34,17 +28,7 @@ class Pictograms extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
         alignItems: 'flex-start',
-        justifyContent: 'flex-start',
-        padding: 20,
-    },
-    phaseComponent: {
-    },
-    categoriesComponent: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        marginBottom: 36
     }
 })
 

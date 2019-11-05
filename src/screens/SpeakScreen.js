@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import Phrases from '../components/organisms/phrases/Phrases';
 import Pictograms from '../components/organisms/pictograms/Pictograms';
 
@@ -16,11 +16,17 @@ export class SpeakScreen extends Component {
     };
     render() {
         return (
-            <View>
+            <View style={styles.speakScreen}>
                 <Pictograms />
             </View>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    speakScreen: {
+        flex: 1
+    }
+})
 
 export default SpeakScreen
