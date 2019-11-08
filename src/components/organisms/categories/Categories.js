@@ -1,18 +1,17 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Dimensions } from 'react-native'
-import { getPictogramsByCategory } from '../../../redux/actions/pictograms';
+import { StyleSheet, View, Text } from 'react-native'
+import { getPictogramsByCategory, getPictogramsByPatient } from '../../../redux/actions/pictograms';
 import { connect } from 'react-redux'
 import ButtonComponent from '../../atoms/button/ButtonComponent';
 
 export class Categories extends Component {
 
     showPictogramsByCategory = id =>{
-        this.props.getPictogramsByCategory(32)
+        this.props.getPictogramsByCategory(id)
     }
 
     render() {
-        const { categories } = this.props;
-        console.log(categories)
+        const { categories, loading } = this.props;
         const listCategories = categories && categories !== undefined ? categories.map( category => {
             return (
                 <ButtonComponent key={category.id} text={category.description} className='category' onPress={() => this.showPictogramsByCategory(category.id)}  />
@@ -20,7 +19,12 @@ export class Categories extends Component {
         }): console.log('error categories');
         return (
             <View style={styles.categoriesContainer}>
-                {listCategories}
+                <ButtonComponent text='Todos' className='category' onPress={ () => this.props.getPictogramsByPatient(this.props.user.id)}  />
+                {loading ?
+                    <Text style={{ fontSize: 30 }}>Cargando...</Text>
+                    :
+                    listCategories
+                }
             </View>
         )
     }
@@ -36,11 +40,14 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = (state) => ({
-    categories: state.categories.categories
+    user: state.users.user,
+    categories: state.categories.categories,
+    loading: state.categories.loading
 })
 
 const mapDispatchToProps = {
-    getPictogramsByCategory
+    getPictogramsByCategory,
+    getPictogramsByPatient
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Categories)

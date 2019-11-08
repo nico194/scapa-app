@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
 import Pictogram from '../../molecules/pictogram/Pictogram';
 import { getPhrases } from '../../../redux/actions/phrases'
+import { unselectPictogramToPhrase } from '../../../redux/actions/pictograms';
 import { connect } from 'react-redux';
 import { speak } from 'expo-speech';
 import ButtonComponent from '../../atoms/button/ButtonComponent';
-class Routines extends Component {
+class Phrases extends Component {
 
     componentDidMount() {
         this.props.getPhrases(this.props.user.id);
@@ -19,32 +20,53 @@ class Routines extends Component {
         speak(sentence, { language: 'es-ES' });
     }
 
+    reproduce = description => {
+        speak(description, { language: 'es-ES' });
+    }
+
+    unselectedPictogram = index => {
+        this.props.unselectPictogramToPhrase(index)
+    }
+
     render() {
-        const { phrases } = this.props;
-        const sentences = phrases && phrases !== undefined ? phrases.map( (phrase, index) => {
-            return(
-                <View key={index}>
-                    <Text style={styles.descriptionPhrase}>{phrase.description !== null ? phrase.description : 'Any description'}</Text>
-                    <ScrollView horizontal={true}>
-                        <View style={styles.sentence}>
-                            {
-                                phrase.pictograms.map((pictogram, index) =>{
-                                    return (
-                                        <Pictogram key={index} description={pictogram.description} image={pictogram.image} />
-                                    )
-                                })
-                            }
+        const { phrases, speak, pictogramsSelected } = this.props;
+        const sentences = !speak ?
+            phrases && phrases !== undefined ? phrases.map( (phrase, index) => {
+                return(
+                    <View key={index}>
+                        <Text style={styles.descriptionPhrase}>{phrase.description !== null ? phrase.description : 'Any description'}</Text>
+                        <ScrollView horizontal={true}>
+                            <View style={styles.sentence}>
+                                {
+                                    phrase.pictograms.map((pictogram, index) =>{
+                                        return (
+                                            <Pictogram key={index} description={pictogram.description} image={pictogram.image} onPress={ () => this.reproduce(pictogram.description)} />
+                                        )
+                                    })
+                                }
+                            </View>
                             <View style={styles.centerButton}>
                                 <ButtonComponent text='Reproducir' className='primary' onPress={ () => this.reproduceSentence(phrase.pictograms)}/>
                             </View>
-                        </View>
-                    </ScrollView>
-                </View>
-            )
-        }) : console.log('error show phrases')
+                        </ScrollView>
+                    </View>
+                )
+            }) : console.log('error show phrases')
+            : 
+            pictogramsSelected && pictogramsSelected !== undefined ? pictogramsSelected.map( (pictogram, index) => {
+                return(
+                    <Pictogram key={index} image={pictogram.image} onPress={() => this.unselectedPictogram(index)} />
+                )
+            }) : console.log('error show sentence')
         return (
-            <View>
-                <ScrollView>
+            <View style={speak? styles.container : {}}>
+                {speak &&
+                    <ButtonComponent text='Guardar' className='primary' onPress={ () => this.reproduceSentence(phrase.pictograms)}/>
+                }
+                {speak &&
+                    <ButtonComponent text='Reproducir' className='primary' onPress={ () => this.reproduceSentence(phrase.pictograms)}/>
+                }
+                <ScrollView horizontal={speak ? true: false}>
                     {sentences}
                 </ScrollView>
             </View>
@@ -53,6 +75,10 @@ class Routines extends Component {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'row-reverse'
+    },
     sentence: {
         flex: 1,
         flexDirection: 'row',
@@ -79,13 +105,15 @@ const mapStateToProps = state => {
     return {
         user: state.users.user,
         phrases: state.phrases.phrases,
+        pictogramsSelected: state.pictograms.pictogramsSelected
     }
 }
 
 const mapDispatchToPros = {
-    getPhrases
+    getPhrases,
+    unselectPictogramToPhrase
 }
 
 
 
-export default connect(mapStateToProps, mapDispatchToPros)(Routines)
+export default connect(mapStateToProps, mapDispatchToPros)(Phrases)

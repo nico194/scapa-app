@@ -129,7 +129,6 @@ export class RegisterScreen extends Component {
         if(result.status) {
             this.props.navigation.navigate('Home');
         } else {
-            console.log(result)
             this.setState({ register: true, message: result.response[0] })
         }
     }

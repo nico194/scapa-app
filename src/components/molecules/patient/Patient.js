@@ -51,7 +51,6 @@ class Patient extends Component {
         const { categoriesSelected } = this.state;
         const exits = categoriesSelected.findIndex(idCategory => idCategory === id);
         exits === -1 ? categoriesSelected.push(id) : categoriesSelected.splice(exits, 1);
-        console.log('categories selected: ', categoriesSelected);
     }
 
     addCategoriesToFolder = () =>{

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View } from 'react-native'
+import Container from '../Styles/Container';
 
 export class MemoriesScreen extends Component {
     static navigationOptions = {
@@ -14,7 +15,7 @@ export class MemoriesScreen extends Component {
     };
     render() {
         return (
-            <View>
+            <View style={Container.screen}>
                 <Text> MemoriesScreen </Text>
             </View>
         )

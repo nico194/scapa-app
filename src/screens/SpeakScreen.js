@@ -16,16 +16,27 @@ export class SpeakScreen extends Component {
     };
     render() {
         return (
-            <View style={styles.speakScreen}>
-                <Pictograms />
+            <View style={styles.container}>
+                <View style={styles.phrases}>
+                    <Phrases speak={true} style={styles.phrases} />
+                </View>
+                <View style={styles.pictograms}>
+                    <Pictograms style={styles.pictograms} />
+                </View>
             </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    speakScreen: {
-        flex: 1
+    container: {
+        flex:1
+    },
+    phrases: {
+        flex: 1.5,
+    },
+    pictograms: {
+        flex: 4.5,
     }
 })
 

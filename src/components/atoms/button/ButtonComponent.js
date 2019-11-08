@@ -31,9 +31,13 @@ const styles = StyleSheet.create({
         padding: 5
     },
     categoryButton: {
+        borderTopColor: '#A84F3D',
+        borderLeftColor: '#A84F3D',
+        borderRightColor: '#A84F3D',
+        borderStyle: "solid",
+        borderWidth: 2,
         backgroundColor: '#EF721E',
-        width: 130,
-        height: 50
+        padding: 10
     },
     primaryText: {
         textAlign: "center",

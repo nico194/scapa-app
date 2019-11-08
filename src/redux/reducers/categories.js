@@ -1,19 +1,11 @@
 import { FETCH_CATEGORIES_PENDING,
          FETCH_CATEGORIES_ERROR,
-         FETCH_CATEGORIES_SUCCESS,
-         FETCH_PATIENT_CATEGORIES_SUCCESS,
-         FETCH_ADD_CATEGORY_SUCCESS,
-         FETCH_ADD_CATEGORIES_TO_FOLDER,
-         FETCH_UPDATE_CATEGORY_SUCCESS,
-         FETCH_DELETE_CATEGORY_SUCCESS,
-         FETCH_DELETE_CATEGORY_TO_FOLDER
+         FETCH_CATEGORIES_SUCCESS
        } from '../constants/categories';
 
 const initialState = {
     loading: false,
     categories: [],
-    patientCategories: [],
-    category: {},
     err: null
 }
 

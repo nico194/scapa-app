@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View } from 'react-native'
 import Phrases from '../components/organisms/phrases/Phrases';
+import Container from '../Styles/Container';
 
 export class RoutinesScreen extends Component {
     static navigationOptions = {
@@ -15,7 +16,7 @@ export class RoutinesScreen extends Component {
     };
     render() {
         return (
-            <View>
+            <View style={Container.screen}>
                 <Phrases/>
             </View>
         )
