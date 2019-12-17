@@ -22,7 +22,9 @@ class LoginScreen extends Component {
         super(props)
         this.state= {
             email: '',
-            password: ''
+            password: '',
+            message: '',
+            error: ''
         }
     }
 
@@ -36,7 +38,11 @@ class LoginScreen extends Component {
 
     signIn = () =>{
         this.props.signIn(this.state)
-            .then( user => user && this.props.navigation.navigate('Home'))
+            .then( user => {
+                if(!user) {
+
+                } 
+            })
             .catch( err => console.log(err))
     }
 
@@ -45,12 +51,10 @@ class LoginScreen extends Component {
     }
 
     render() {
+        const { error } = this.state
         return (
             <View style={styles.container}>
-                <TextInput style={TextField.field} placeholder='Email...' onChangeText={ text => this.onChangeField(text, 'email')}/>
-                <TextInput style={TextField.field} placeholder='Password...' onChangeText={ text => this.onChangeField(text, 'password')}/>
-                <ButtonComponent text="Login" onPress={this.signIn} className='primary' />
-                <Text style={styles.link} onPress={this.goToSignUp} >No tienes cuenta? Registrate aquí </Text>
+                
             </View>
         )
     }
@@ -61,11 +65,6 @@ const styles = StyleSheet.create({
         padding: 20,
         flex: 1,
         justifyContent: "center"
-    },
-    link: {
-        color: '#A84F3D',
-        textDecorationLine: 'underline',
-        marginTop: 10
     }
 });
 

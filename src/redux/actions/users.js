@@ -6,6 +6,7 @@ import {
     USER_LOGOUT,
 } from '../constants/users'
 import config from '../../config';
+import { FrameAttribute } from 'expo/build/AR';
 
 export const signIn = (user) => {
     return dispatch => {
@@ -20,12 +21,21 @@ export const signIn = (user) => {
             })
             .then( response => response.json())
             .then( data => {
-                dispatch({ type: USER_SIGNIN_SUCCESS, payload: {user: data.user}})
-                return resolve(data.user);
+                console.log(data)
+                switch(data.status){
+                    case 0:
+                    case 1:
+                    case 3:
+                        dispatch({ type: FETCH_USERS_ERROR, payload: {user: data.message}})
+                        return resolve({ user: false, message: data.message })
+                    case 2:
+                        dispatch({ type: USER_SIGNIN_SUCCESS, payload: {user: data.user}})
+                        return resolve({ user: data.user, message: data.message });
+                }
             })
             .catch( err => {
                 dispatch({ type: FETCH_USERS_ERROR, payload: {err}})
-                return resolve(err);
+                return reject(err);
             });
         })
     }
